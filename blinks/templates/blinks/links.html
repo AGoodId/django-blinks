@@ -1,0 +1,17 @@
+{% load i18n %}{% load url from future %}
+
+{% if links %}
+<ul class="nav nav-list">
+  <li class="nav-header">
+    <a data-toggle="collapse" href="#sidebar_bookmarks" class="collapse-toggle">{% trans "Bookmarks" %}</a>
+    <a class="edit" href="{% url "blinks.views.change" %}"><i class="icon icon-cog"></i></a>
+  </li>
+  <li id="sidebar_bookmarks" class="collapse in">
+    <ul class="nav nav-list nav-filter">
+      {% for link in links %}
+      <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </li>
+</ul>
+{% endif %}

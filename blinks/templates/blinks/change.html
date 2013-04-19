@@ -1,0 +1,78 @@
+{% extends "standard.html" %}
+
+{% load i18n begood_util_tags %}{% load url from future %}
+
+{% block title %}{% trans "Edit bookmarks" %}{% endblock %}
+
+{% block content %}
+<div class="thumbnail">
+  <div class="caption">
+    <h1>{% trans "Edit bookmarks" %}</h1>
+    
+    {% if links %}
+    <form method="post" action="{% url "blinks.views.change" %}">
+      {% csrf_token %}
+      <ul id="blinks-links" class="table">
+        {% for form in forms %}
+        {% with form.instance.url as url %}
+        <li class="link row-fluid">
+          <div class="span11">
+            {% for field in form %}
+              {% if field.errors %}
+                <p class="alert alert-error">{% for error in field.errors %}{{ error }}{% endfor %}</p>
+              {% endif %}
+              {% if field.name = "title" %}
+                <div class="input-prepend">
+                  <span class="add-on">{% trans "Title" %}</span>{{ field }}
+                </div>
+              {% else %}
+                {% if field.name = "delete" %}
+                  <label class="checkbox pull-right">
+                    {{ field }}
+                    Delete
+                  </label>
+                {% else %}
+                  {{ field }}
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+            <span class="help-block"><a href="{{ url }}">{{ url|truncate:30 }}</a></span>
+          </div>
+          <div class="span1 draghandle">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </div>
+        </li>
+        {% endwith %}
+        {% endfor %}
+      </ul>
+      
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{% trans "Save changes" %}</button>
+      </div>
+    </form>
+
+    <script>
+    (function($) {
+      var $list = $('#blinks-links');
+
+      $list.sortable({
+        "appendTo": "parent",
+        "axis": "y",
+        "containment": "parent",
+        "delay": 150,
+        "distance": 10,
+        "forceHelperSize": true,
+        "stop": function(e, ui) {
+          $list.find('li').each(function(ix, val) {
+            $(this).find('input[name*=order]').val(ix);
+          });
+        }
+      });
+    })(jQuery);
+    </script>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

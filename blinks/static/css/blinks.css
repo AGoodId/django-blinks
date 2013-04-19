@@ -1,0 +1,24 @@
+#blinks-links,
+#blinks-links .link {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#blinks-links {
+  border-bottom: 1px solid #ccc;
+}
+#blinks-links .link {
+  border-top: 1px solid #ccc;
+  padding: 10px 0;
+}
+#blinks-links .draghandle {
+  cursor: move;
+}
+#blinks-links .draghandle .icon-bar {
+  background: #ccc;
+  display: block;
+  margin: 0 0 4px 0;
+  padding: 0;
+  width: 100%;
+  height: 4px;
+}
