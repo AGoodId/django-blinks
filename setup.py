@@ -8,6 +8,12 @@ setup(name='django-blinks',
       author_email='teknik@agoodid.se',
       url='http://github.com/AGoodId/django-blinks/',
       packages=['blinks', 'blinks.templatetags'],
+      package_data = {
+          'blinks': [
+              'templates/*.html',
+              'templates/*/*.html',
+          ],
+      },
       license='BSD',
       include_package_data = False,
       zip_safe = False,
