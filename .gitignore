@@ -1,9 +1,6 @@
-*.db
-*.pyc
 .DS_Store
-settings_dev.py
-uploads
-whoosh
-CACHE
 *~
-
+*.db
+*.log
+*.pot
+*.pyc
