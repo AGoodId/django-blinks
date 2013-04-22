@@ -1,4 +1,7 @@
+from begood_sites.fields import MultiSiteField
+
 from django.contrib.auth.models import User
+from django.contrib.sites.managers import CurrentSiteManager
 from django.db import models
 from django.utils.translation import ugettext as _
 
@@ -11,8 +14,9 @@ class Link(models.Model):
   url = models.CharField(_('URL'), max_length=255)
   user = models.ForeignKey(User, verbose_name=_('author'))
   order = models.PositiveIntegerField(_('order'))
+  sites = MultiSiteField()
 
-  objects = models.Manager()
+  objects = CurrentSiteManager()
 
   class Meta:
     verbose_name = _('link')
