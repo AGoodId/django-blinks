@@ -8,7 +8,7 @@ class LinkForm(forms.ModelForm):
   
   class Meta:
     model = Link
-    exclude = ('url', 'user',)
+    exclude = ('url', 'user', 'sites',)
     widgets = {
       'order': forms.widgets.HiddenInput()
     }
