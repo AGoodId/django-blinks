@@ -1,1 +1,1 @@
-git://github.com/AGoodId/begood-sites.git#egg=begood-sites
+git+git://github.com/AGoodId/begood-sites.git#egg=begood-sites
