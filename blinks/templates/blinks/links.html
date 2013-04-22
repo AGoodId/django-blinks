@@ -1,11 +1,11 @@
-{% load i18n %}{% load url from future %}
+{% load blinks_tags i18n %}{% load url from future %}
 
-{% if links %}
 <ul class="nav nav-list">
   <li class="nav-header">
     <a data-toggle="collapse" href="#sidebar_bookmarks" class="collapse-toggle">{% trans "Bookmarks" %}</a>
     <a class="edit" href="{% url "blinks.views.change" %}"><i class="icon icon-cog"></i></a>
   </li>
+  {% if links %}
   <li id="sidebar_bookmarks" class="collapse in">
     <ul class="nav nav-list nav-filter">
       {% for link in links %}
@@ -13,5 +13,6 @@
       {% endfor %}
     </ul>
   </li>
+  {% endif %}
+  <li class="nav-header">{% add_blinks_link request.get_full_path %}</li>
 </ul>
-{% endif %}

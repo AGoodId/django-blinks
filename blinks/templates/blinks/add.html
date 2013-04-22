@@ -1,19 +1,20 @@
 {% load i18n %}{% load url from future %}
 
-<form id="add-blink-form" method="post" action="{% url "blinks.views.add" %}" style="display:none;">
+<form method="post" action="{% url "blinks.views.add" %}" style="display:none;" class="add-blink-form">
   {% csrf_token %}
   <input type="hidden" name="path" value="{{ path }}" />
   <input type="hidden" name="title" value="" />
 </form>
-<a id="add-blink-link" href="#">{% trans "Add bookmark" %}</a>
+<a class="add-blink-link" href="#">{% trans "Add bookmark" %}</a>
 
 <script>
 (function($) {
-  var $link = $('#add-blink-link'),
-      $form = $('#add-blink-form');
-  $form.find('[name=title]').val(document.title);
+  var $form,
+      $link = $('.add-blink-link');
 
   $link.click(function(e) {
+    $form = $link.siblings('.add-blink-form');
+    $form.find('[name=title]').val(document.title);
     $form.submit();
     e.preventDefault();
   });
