@@ -1,6 +1,7 @@
 from blinks.forms import LinkForm
 from blinks.models import Link
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
@@ -34,6 +35,7 @@ def add(request):
                 'order': order}
   new_link = Link(**link_attrs)
   new_link.save()
+  new_link.sites.add(settings.SITE_ID)
   messages.add_message(request, messages.SUCCESS, _('Your bookmark was added'))
   return HttpResponseRedirect(path)
 
