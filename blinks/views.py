@@ -73,7 +73,16 @@ def change(request):
                             context_instance=RequestContext(request))
 
 
+class IsOwner(permissions.BasePermission):
+  """Object-level permission to only allow the owner of an object to view and edit it.
+  """
+  def has_object_permission(self, request, view, obj):
+    return obj.user == request.user
+
+
 class LinkListAPIView(generics.ListCreateAPIView):
+  """List API for links that allows listing and creating.
+  """
   queryset = Link.objects.all()
   serializer_class = LinkSerializer
   paginate_by = 10
@@ -85,6 +94,22 @@ class LinkListAPIView(generics.ListCreateAPIView):
     # Set the current user as author
     obj.user = self.request.user
 
+  def post_save(self, obj, created=False):
+    # Add to the current site
+    obj.sites.add(settings.SITE_ID)
+
+
+class LinkDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+  """Detail API for links that allows viewing and editing.
+  """
+  model = Link
+  serializer_class = LinkSerializer
+  permission_classes = (permissions.IsAuthenticated, IsOwner,)
+  
+  def pre_save(self, obj):
+    # Set the current user as owner
+    obj.user = self.request.user
+  
   def post_save(self, obj, created=False):
     # Add to the current site
     obj.sites.add(settings.SITE_ID)
