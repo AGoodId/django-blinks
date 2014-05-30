@@ -1,5 +1,8 @@
 from blinks.forms import LinkForm
 from blinks.models import Link
+from blinks.serializers import LinkSerializer
+from rest_framework import generics, permissions
+
 
 from django.conf import settings
 from django.contrib import messages
@@ -68,4 +71,20 @@ def change(request):
   return render_to_response('blinks/change.html',
                             locals(),
                             context_instance=RequestContext(request))
-  
+
+
+class LinkListAPIView(generics.ListCreateAPIView):
+  queryset = Link.objects.all()
+  serializer_class = LinkSerializer
+  paginate_by = 10
+  max_paginate_by = 100
+  paginate_by_param = 'limit'
+  permission_classes = (permissions.IsAuthenticated, )
+
+  def pre_save(self, obj):
+    # Set the current user as author
+    obj.user = self.request.user
+
+  def post_save(self, obj, created=False):
+    # Add to the current site
+    obj.sites.add(settings.SITE_ID)

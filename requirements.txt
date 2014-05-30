@@ -1,1 +1,2 @@
 git+git://github.com/AGoodId/begood-sites.git#egg=begood-sites
+djangorestframework==2.3.13
