@@ -1,7 +1,8 @@
 from blinks.forms import LinkForm
 from blinks.models import Link
 from blinks.serializers import LinkSerializer
-from rest_framework import generics, permissions
+import django_filters
+from rest_framework import generics, permissions, filters
 
 
 from django.conf import settings
@@ -80,6 +81,13 @@ class IsOwner(permissions.BasePermission):
     return obj.user == request.user
 
 
+class IsOwnerFilterBackend(filters.BaseFilterBackend):
+  """Filter that only allows users to see their own objects.
+  """
+  def filter_queryset(self, request, queryset, view):
+    return queryset.filter(user=request.user)
+
+
 class LinkListAPIView(generics.ListCreateAPIView):
   """List API for links that allows listing and creating.
   """
@@ -88,7 +96,8 @@ class LinkListAPIView(generics.ListCreateAPIView):
   paginate_by = 10
   max_paginate_by = 100
   paginate_by_param = 'limit'
-  permission_classes = (permissions.IsAuthenticated, )
+  permission_classes = (permissions.IsAuthenticated,)
+  filter_backends = (IsOwnerFilterBackend,)
 
   def pre_save(self, obj):
     # Set the current user as author
