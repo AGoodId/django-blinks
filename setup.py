@@ -15,6 +15,9 @@ setup(name='django-blinks',
           ],
       },
       license='BSD',
+      install_requires = [
+        'djangorestframework==2.3.13',
+      ]
       include_package_data = False,
       zip_safe = False,
       classifiers = [
