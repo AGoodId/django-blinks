@@ -1,3 +1,4 @@
+import uuid
 from blinks.models import Link
 from django import template
 
@@ -11,7 +12,7 @@ def blinks_links(user):
   return {'links': links}
 
 def add_blinks_link(path):
-  return {'path': path}
+    return {'path': path, 'uuid': uuid4()}
 
 register.assignment_tag(blinks_links_list)
 register.inclusion_tag('blinks/links.html')(blinks_links)
