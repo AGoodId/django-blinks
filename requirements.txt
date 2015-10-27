@@ -1,2 +1,2 @@
-git+git://github.com/AGoodId/begood-sites.git#egg=begood-sites
+git+git://github.com/AGoodId/begood-sites.git@ce1013e8d347f20bccda1334936cea7cec7ee3af#egg=begood-sites
 djangorestframework==2.3.13
