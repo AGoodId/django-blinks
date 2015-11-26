@@ -12,7 +12,7 @@ def blinks_links(user):
   return {'links': links}
 
 def add_blinks_link(path):
-    return {'path': path, 'uuid': uuid4()}
+    return {'path': path, 'uuid': uuid.uuid4()}
 
 register.assignment_tag(blinks_links_list)
 register.inclusion_tag('blinks/links.html')(blinks_links)
